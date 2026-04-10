@@ -51,3 +51,110 @@
    
  : windows에서 CMD -> ping 10.0.2.15
 ```
+
+---
+### -------------- 기본 설치 완료 -----------------
+```
+설치 완료 후에는 vm 스냅샷을 찍어 놓으면 좋다.
+: 리눅스를 이용해서 각종 설정을 진행 하다 초기화 하고 싶을때
+: 가상머신이라는 동작에서 사용됨 (wsl은 안됨)
+: 버추얼박스나 vmware에서 활용도 높다.
+: aws, gcp 등 클라우드 플렛폼에서는 비용이 추가 됨
+```
+
+### --------------- 기본 명령어 사용 ---------------
+```
+터미널 : 대부분 리눅스는 명령어로 기능을 사용함
+ls : list로 현재 위치에 내용 보기
+ls -l : list 자세히 보기
+  퍼미션 링크수 소유자 소유그룹 사이즈 날짜 이름
+  퍼미션 내용 확인 하기
+  d : 디렉토리(폴더) 방
+  - : 파일
+
+  rwx     rwx  rwx 설정 (-안됨, 영문은 됨)
+  소유자  그룹  그외
+  r  : 읽기권한
+  w : 쓰기권한
+  x  : 실행권한
+
+  rwx------ : 소유자는 모든권한 나머지는 제외
+  r--r--r-- : 소유자,그룹,그외사용자는 읽기만
+  rw-rw-rw- : 모든사용자가 읽기와 쓰기가 가능
+
+권한 부여방법 : chmod 777 파일명
+연습용 파일 생성 : touch test.txt -> ls -l
+-rw-rw-r-- test.txt
+연습용 폴더 생성 : mkdir test     -> ls -l
+drwxrwxr-x test
+
+umask 값을 이용해서 폴더나 파일을 생성한다.
+         - 7777 
+umask 엔터 0002 (8진법)
+           7775
+            775 -> 8진법을 rwx로 변환
+            7
+           rwx
+             7
+            rwx
+              5
+             r-x
+
+조원들과 본인만 모든 권한으로 변경
+chmod 770 test.txt  -> ls -l -> -rwxrwx---
+
+나만 모든 권한으로 변경
+chmod 700 test.txt  -> ls -l -> -rwx------
+
+퍼미션변경시 알파벳으로 변경
+chmod o+r test.txt  -> ls -l -> -rwx---r--
+chmod g+r test.txt  -> ls -l -> -rwxr--r--
+chmod u-x text.txt  -> ls -l -> -rw-r--r--
+chmod a+r text.txt  -> ls -l -> -rwxr--r--
+
+-----------------------------------------
+웹개발시 표준 퍼미션 755로 많이 함
+
+-----------------------------------------
+pwd : 프린팅워킹디렉토리
+cd test  -> pwd -> /home/id/test
+cd ..    -> pwd -> /home/id
+cd test  -> cd ~ -> pwd -> /home/id
+cd /     -> pwd  (최상위 디렉토리) -> ls
+cd home  -> pwd  -> ls 계정확인 -> cd 계정명
+
+윈도우에서는 c:/users/계정명
+리눅스에서는 /home/계정명
+
+du // 디렉토리별 사용량 확인용
+df // 디스크별 사용량 확인용
+tree  // sudo apt install tree 설치
+   (현재위치에 파일과 디렉토리 구조 보기)
+
+-------------------------------------------
+사용자 및 그룹관리용 명령어
+
+sudo useradd -m mbc1  -> 사용자 계정만들기
+sudo adduser mbc2 ->  홈디렉토리 자동생성
+sudo passwd mbc1   -> 사용자의 암호 변경
+
+주의사항 : 계정을 만들면 개인그룹이 만들어짐
+su mbc1   -> 다른계정으로 로그인 
+비밀번호 1234
+
+sudo groupadd lms  -> 그룹생성
+
+sudo gpasswd -a mbc1 lms 
+  -> mbc1계정을 lms그룹에 추가
+sudo gpasswd -a mbc2 lms 
+sudo gpasswd -a mbc3 lms 
+sudo gpasswd -a 이름 lms 
+
+touch board.txt -> ls -l
+sudo chgrp lms board.txt -> ls -l (그룹변경)
+sudo chown mbc1 board.txt -> ls -l (소유자변경)
+-rw-rw-r-- mbc1 lms 0 날짜 board.txt
+```
+### -------------------기본명령어 종료--------------
+
+
