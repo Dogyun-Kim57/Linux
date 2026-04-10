@@ -221,6 +221,32 @@ Tab → 자동완성
 Ctrl + L → 화면 정리
 Ctrl + C → 종료
 ```
+---
+
+### 포트 포워딩 관련
+```
+< 기존 포트프록시 정리 >
+netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=5000
+
+< WSL 5000 포트를 윈도우 5000으로 연결 >
+netsh interface portproxy add v4tov4 listenaddress=0.0.0.0 listenport=5000 connectaddress=172.25.20.253 connectport=5000
+
+< 방화벽에서 5000 허용 >
+netsh advfirewall firewall add rule name="Flask5000" dir=in action=allow protocol=TCP localport=5000
+
+< 설정 확인 >
+netsh interface portproxy show all
+
+< 방화벽 규칙 확인 >
+netsh advfirewall firewall show rule name="Flask5000"
+```
+
+
+
+
+
+
+
 
 
 
